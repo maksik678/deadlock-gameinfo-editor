@@ -16,15 +16,15 @@ use anyhow::Result;
 
 fn main() -> Result<()> {
 	CommandLineInterface::init()?;
-	let (path, file) = GameInfoFile::init()?;
+	let mut file = GameInfoFile::init()?;
 
-	let file = FovManager::process(&file)?;
-	let file = MinionHealthManager::process(&file)?;
-	let file = PlayerHealthManager::process(&file)?;
-	let file = ModsManager::process(&file)?;
+	FovManager::process(&mut file)?;
+	MinionHealthManager::process(&mut file)?;
+	PlayerHealthManager::process(&mut file)?;
+	ModsManager::process(&mut file)?;
 
-	GameInfoFile::save(&path, &file)?;
+	GameInfoFile::save(&mut file)?;
 	CommandLineInterface::exit()?;
-	
+
 	Ok(())
 }

@@ -6,14 +6,17 @@ const NEW_LINE: &str = "\n";
 const INDENT: &str = "\t\t";
 const SEPARATOR: &str = "\t";
 
-pub struct GameInfoFile {}
+pub struct GameInfoFile {
+	content: String,
+	path: String,
+}
 
 impl GameInfoFile {
-	pub fn init() -> Result<(String, String)> {
+	pub fn init() -> Result<GameInfoFile> {
 		let path = Self::find()?;
-		let file = Self::read(&path)?;
+		let content = Self::read(&path)?;
 
-		Ok((path, file))
+		Ok(Self { path, content })
 	}
 
 	fn find() -> Result<String> {
@@ -35,8 +38,8 @@ impl GameInfoFile {
 		Ok(file)
 	}
 
-	pub fn save(path: &String, content: &String) -> Result<()> {
-		let result = std::fs::write(path, content)?;
+	pub fn save(&self) -> Result<()> {
+		let result = std::fs::write(&self.path, &self.content)?;
 
 		Ok(result)
 	}
@@ -47,73 +50,61 @@ impl GameInfoFile {
 		line
 	}
 
-	pub fn find_line(file: &String, key: &str) -> Result<(usize, usize)> {
-		let content = file.clone();
+	pub fn find_line(&self, key: &str) -> Result<(usize, usize)> {
+		let key_pos = self.content.find(key).ok_or_else(|| anyhow!("Key — {key} not found"))?;
 
-		let key_pos = content.find(key).ok_or_else(|| anyhow!("Key — {key} not found"))?;
-
-		let line_start = content[..key_pos]
+		let line_start = self.content[..key_pos]
 			.rfind('\n')
 			.map(|pos| pos + 1)
 			.unwrap_or(0);
 
-		let line_end = content[key_pos..]
+		let line_end = self.content[key_pos..]
 			.find('\n')
 			.map(|pos| key_pos + pos + 1)
-			.unwrap_or(content.len());
+			.unwrap_or(self.content.len());
 
 		Ok((line_start, line_end))
 	}
 
-	pub fn add_line(file: &String, target: &str, new_line: &str) -> Result<String> {
-		let mut content = file.clone();
-
-		let target_pos = content.find(target).ok_or_else(|| anyhow!("{target} section not found"))?;
-		let open_brace_pos = content[target_pos..].find('{').ok_or_else(|| anyhow!("{target} start of section not found"))?;
+	pub fn add_line(&mut self, target: &str, new_line: &str) -> Result<()> {
+		let target_pos = self.content.find(target).ok_or_else(|| anyhow!("{target} section not found"))?;
+		let open_brace_pos = self.content[target_pos..].find('{').ok_or_else(|| anyhow!("{target} start of section not found"))?;
 
 		let insert_pos = target_pos + open_brace_pos + 1;
-		content.replace_range(insert_pos..insert_pos, &new_line);
+		self.content.replace_range(insert_pos..insert_pos, &new_line);
 
-		Ok(content)
+		Ok(())
 	}
 
-	pub fn replace_line(file: &String, old_line: &(usize, usize), new_line: &str) -> Result<String> {
-		let mut content = file.clone();
-
+	pub fn replace_line(&mut self, old_line: &(usize, usize), new_line: &str) -> Result<()> {
 		let (line_start, line_end) = old_line;
 		let line_start = line_start - 1;
 		let line_end = *line_end;
 
 		let new_line = format!("{new_line}\n");
 
-		content.replace_range(line_start..line_end, &new_line);
+		self.content.replace_range(line_start..line_end, &new_line);
 
-		Ok(content)
+		Ok(())
 	}
 
-	pub fn remove_line(file: &String, line_start: &usize, line_end: &usize) -> Result<String> {
-		let mut content = file.clone();
+	pub fn remove_line(&mut self, line_start: &usize, line_end: &usize) -> Result<()> {
+		self.content.replace_range(line_start..line_end, "");
 
-		content.replace_range(line_start..line_end, "");
-
-		Ok(content)
+		Ok(())
 	}
 
-	pub fn find_search_paths(file: &String) -> Result<(usize, usize)> {
-		let content = file.clone();
-
-		let search_paths_start = content.find("SearchPaths").ok_or_else(|| anyhow!("SearchPaths section not found"))?;
-		let relative_end = content[search_paths_start..].find('}').ok_or_else(|| anyhow!("SearchPaths end of section not found"))?;
+	pub fn find_search_paths(&mut self) -> Result<(usize, usize)> {
+		let search_paths_start = self.content.find("SearchPaths").ok_or_else(|| anyhow!("SearchPaths section not found"))?;
+		let relative_end = self.content[search_paths_start..].find('}').ok_or_else(|| anyhow!("SearchPaths end of section not found"))?;
 		let search_paths_end = search_paths_start + relative_end + 1;
 
 		Ok((search_paths_start, search_paths_end))
 	}
 
-	pub fn replace_search_paths(file: &String, search_paths: &str, search_paths_start: &usize, search_paths_end: &usize) -> Result<String> {
-		let mut content = file.clone();
+	pub fn replace_search_paths(&mut self, search_paths: &str, search_paths_start: &usize, search_paths_end: &usize) -> Result<()> {
+		self.content.replace_range(search_paths_start..search_paths_end, &search_paths);
 
-		content.replace_range(search_paths_start..search_paths_end, &search_paths);
-
-		Ok(content)
+		Ok(())
 	}
 }
