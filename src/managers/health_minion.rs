@@ -2,14 +2,15 @@ use crate::core::cli::CommandLineInterface;
 use crate::core::file::GameInfoFile;
 use crate::shared::configs::MinionHealthConfig;
 use crate::shared::enums::Options;
+use crate::shared::traits::Manager;
 
 use anyhow::Result;
 use strum::IntoEnumIterator;
 
 pub struct MinionHealthManager;
 
-impl MinionHealthManager {
-	pub fn process(file: &mut GameInfoFile) -> Result<()> {
+impl Manager for MinionHealthManager {
+	fn process(file: &mut GameInfoFile) -> Result<()> {
 		let message = MinionHealthConfig::PROMPT_MESSAGE;
 		let options = Options::iter().collect();
 
@@ -23,30 +24,23 @@ impl MinionHealthManager {
 	}
 
 	fn handle_enable(file: &mut GameInfoFile) -> Result<()> {
-		let key = MinionHealthConfig::KEY;
-		let value = MinionHealthConfig::VALUE;
+		let section = (MinionHealthConfig::SECTION_START, MinionHealthConfig::SECTION_END);
+		let lines = MinionHealthConfig::LINES.to_vec();
 
-		let target = MinionHealthConfig::TARGET;
-		let new_line = GameInfoFile::create_line(&key, &value);
+		let convars_pos = GameInfoFile::find_convars(file)?;
 
-		match GameInfoFile::find_line(file, &key) {
-			Ok(existing_line) => GameInfoFile::replace_line(file, &existing_line, &new_line),
-			Err(_) => GameInfoFile::add_line(file, &target, &new_line),
-		}?;
-
-		Ok(())
+		match GameInfoFile::find_section(file, &section) {
+			Ok(section_pos) => GameInfoFile::replace_section(file, &lines, &section, &section_pos),
+			Err(..) => GameInfoFile::add_section(file, &lines, &section, &convars_pos),
+		}
 	}
 
 	fn handle_disable(file: &mut GameInfoFile) -> Result<()> {
-		let key = MinionHealthConfig::KEY;
-		let (start, end) = GameInfoFile::find_line(file, &key)?;
+		let section = (MinionHealthConfig::SECTION_START, MinionHealthConfig::SECTION_END);
 
-		GameInfoFile::remove_line(file, &start, &end)?;
-
-		Ok(())
-	}
-
-	fn handle_skip() -> Result<()> {
-		Ok(())
+		match GameInfoFile::find_section(file, &section) {
+			Ok(section_pos) => GameInfoFile::remove_section(file, &section_pos),
+			Err(..) => Ok(()),
+		}
 	}
 }

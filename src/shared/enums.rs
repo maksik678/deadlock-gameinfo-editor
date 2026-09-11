@@ -6,3 +6,10 @@ pub enum Options {
 	Disable,
 	Skip,
 }
+
+#[derive(Display, EnumIter)]
+pub enum PresetOptions {
+	Light,
+	Medium,
+	Potato,
+}

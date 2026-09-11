@@ -5,8 +5,8 @@ use std::fs;
 use anyhow::{ anyhow, Result };
 
 pub struct GameInfoFile {
-	content: String,
 	path: String,
+	content: String,
 }
 
 impl GameInfoFile {
@@ -17,11 +17,17 @@ impl GameInfoFile {
 		Ok(Self { path, content })
 	}
 
+	pub fn save(&self) -> Result<()> {
+		let result = fs::write(&self.path, &self.content)?;
+
+		Ok(result)
+	}
+
 	fn find() -> Result<String> {
 		let steam_dir = steamlocate::locate()?;
 		let steam_app = steam_dir.find_app(GameInfoFileConfig::DEADLOCK_APP_ID)?;
 
-		let (deadlock, library) = &steam_app.ok_or_else(|| anyhow!("Deadlock not found"))?;
+		let (deadlock, library) = &steam_app.ok_or_else(|| anyhow!("[Deadlock App] was not found"))?;
 
 		let deadlock_path = &library.resolve_app_dir(&deadlock);
 		let gameinfo_path = &deadlock_path.join("game").join("citadel").join("gameinfo.gi");
@@ -36,77 +42,67 @@ impl GameInfoFile {
 		Ok(file)
 	}
 
-	pub fn save(&self) -> Result<()> {
-		let result = fs::write(&self.path, &self.content)?;
+	pub fn find_convars(&self) -> Result<usize> {
+		let target_pos = self.content.find("ConVars").ok_or_else(|| anyhow!("[ConVars] was not found"))?;
+		let open_brace_pos = self.content[target_pos..].find('{').ok_or_else(|| anyhow!("[Open Brace] was not found"))?;
+		let convars_pos = target_pos + open_brace_pos + 1;
 
-		Ok(result)
+		Ok(convars_pos)
 	}
 
-	pub fn create_line(key: &str, value: &str) -> String {
-		let new_line = "\n";
-		let indent = "\t\t";
-		let separator = "\t";
+	pub fn find_section(&self, section: &(&str, &str)) -> Result<(usize, usize)> {
+		let (section_start, section_end) = section;
 
-		let line = format!("{new_line}{indent}\"{key}\"{separator}\"{value}\"");
+		let section_start_pos = self.content.find(section_start).ok_or_else(|| anyhow!("[{section_start}] was not found"))? - 3;
+		let section_end_pos = self.content.find(section_end).ok_or_else(|| anyhow!("[{section_end}] was not found"))? + section_end.len() + 1;
 
-		line
+		Ok((section_start_pos, section_end_pos))
 	}
 
-	pub fn find_line(&self, key: &str) -> Result<(usize, usize)> {
-		let key_pos = self.content.find(key).ok_or_else(|| anyhow!("Key — {key} not found"))?;
+	pub fn add_section(&mut self, lines: &Vec<(&str, &str)>, section: &(&str, &str), convars_pos: &usize) -> Result<()> {
+		let content = Self::create_content(&lines);
+		let section_content = Self::create_section_content(&content, section);
 
-		let line_start = self.content[..key_pos]
-			.rfind('\n')
-			.map(|pos| pos + 1)
-			.unwrap_or(0);
-
-		let line_end = self.content[key_pos..]
-			.find('\n')
-			.map(|pos| key_pos + pos + 1)
-			.unwrap_or(self.content.len());
-
-		Ok((line_start, line_end))
-	}
-
-	pub fn add_line(&mut self, target: &str, new_line: &str) -> Result<()> {
-		let target_pos = self.content.find(target).ok_or_else(|| anyhow!("{target} section not found"))?;
-		let open_brace_pos = self.content[target_pos..].find('{').ok_or_else(|| anyhow!("{target} start of section not found"))?;
-
-		let insert_pos = target_pos + open_brace_pos + 1;
-		self.content.replace_range(insert_pos..insert_pos, &new_line);
+		self.content.replace_range(convars_pos..convars_pos, &section_content);
 
 		Ok(())
 	}
 
-	pub fn replace_line(&mut self, old_line: &(usize, usize), new_line: &str) -> Result<()> {
-		let (line_start, line_end) = old_line;
-		let line_start = line_start - 1;
-		let line_end = *line_end;
+	pub fn replace_section(&mut self, lines: &Vec<(&str, &str)>, section: &(&str, &str), section_pos: &(usize, usize)) -> Result<()> {
+		let (section_start_pos, section_end_pos) = section_pos;
 
-		let new_line = format!("{new_line}\n");
+		let content = Self::create_content(&lines);
+		let section_content = Self::create_section_content(&content, section);
 
-		self.content.replace_range(line_start..line_end, &new_line);
-
-		Ok(())
-	}
-
-	pub fn remove_line(&mut self, line_start: &usize, line_end: &usize) -> Result<()> {
-		self.content.replace_range(line_start..line_end, "");
+		self.content.replace_range(section_start_pos..section_end_pos, &section_content);
 
 		Ok(())
 	}
 
-	pub fn find_search_paths(&mut self) -> Result<(usize, usize)> {
-		let search_paths_start = self.content.find("SearchPaths").ok_or_else(|| anyhow!("SearchPaths section not found"))?;
-		let relative_end = self.content[search_paths_start..].find('}').ok_or_else(|| anyhow!("SearchPaths end of section not found"))?;
-		let search_paths_end = search_paths_start + relative_end + 1;
+	pub fn remove_section(&mut self, section_pos: &(usize, usize)) -> Result<()> {
+		let (section_start_pos, section_end_pos) = section_pos;
 
-		Ok((search_paths_start, search_paths_end))
-	}
-
-	pub fn replace_search_paths(&mut self, search_paths: &str, search_paths_start: &usize, search_paths_end: &usize) -> Result<()> {
-		self.content.replace_range(search_paths_start..search_paths_end, &search_paths);
+		self.content.replace_range(section_start_pos..section_end_pos, "");
 
 		Ok(())
+	}
+
+	fn create_content(lines: &Vec<(&str, &str)>) -> String {
+		let mut content = String::from("");
+
+		for kv in lines {
+			let (key, value) = kv;
+			let line = String::from(format!("\n\t\t\"{key}\"\t\"{value}\""));
+			content.push_str(&line);
+		}
+
+		content
+	}
+
+	fn create_section_content(content: &String, section: &(&str, &str)) -> String {
+		let (section_start, section_end) = section;
+		let section_content = format!("\n\t\t{section_start}{content}\n\t\t{section_end}\n");
+
+		section_content
 	}
 }

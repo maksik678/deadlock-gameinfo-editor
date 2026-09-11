@@ -12,55 +12,359 @@ impl GameInfoFileConfig {
 pub struct FovConfig;
 impl FovConfig {
 	pub const PROMPT_MESSAGE: &str = "Additional FOV";
-	pub const SELECT_MESSAGE: &str = "Select additional FOV";
-	pub const SELECT_OPTIONS: [&str; 10] = ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "3.0"];
-	pub const TARGET: &str = "ConVars";
+	pub const SELECT_MESSAGE: &str = "| Select additional FOV";
+	pub const SECTION_START: &str = "// Editor FOV - Start";
+	pub const SECTION_END: &str = "// Editor FOV - End";
 	pub const KEY: &str = "r_aspectratio";
+	pub const VALUE_OPTIONS: [&str; 10] = ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "3.0"];
 }
 
 pub struct MinionHealthConfig;
 impl MinionHealthConfig {
 	pub const PROMPT_MESSAGE: &str = "Show minion health through walls & objects";
-	pub const TARGET: &str = "ConVars";
-	pub const KEY: &str = "citadel_damage_offscreen_indicator_disabled";
-	pub const VALUE: &str = "0";
+	pub const SECTION_START: &str = "// Editor MinionHealth - Start";
+	pub const SECTION_END: &str = "// Editor MinionHealth - End";
+	pub const LINES: [(&str, &str); 1] = [("citadel_damage_offscreen_indicator_disabled", "0")];
 }
 
 pub struct PlayerHealthConfig;
 impl PlayerHealthConfig {
 	pub const PROMPT_MESSAGE: &str = "New player health bar style";
-	pub const TARGET: &str = "ConVars";
-	pub const KEY: &str = "citadel_unit_status_use_new";
-	pub const VALUE: &str = "true";
-	pub const KEY_2: &str = "citadel_healthbars_enabled";
-	pub const VALUE_2: &str = "false";
+	pub const SECTION_START: &str = "// Editor PlayerHealth - Start";
+	pub const SECTION_END: &str = "// Editor PlayerHealth - End";
+	pub const LINES: [(&str, &str); 2] = [
+		("citadel_unit_status_use_new", "true"),
+		("citadel_healthbars_enabled", "false"),
+	];
 }
 
-pub struct ModsConfig;
-impl ModsConfig {
-	pub const PROMPT_MESSAGE: &str = "Support for Mods";
-
-	pub const MODDED_SEARCH_PATHS: &str =
-		"SearchPaths
-        {  
-            Game_Language       citadel_*LANGUAGE*
-            Game                citadel/addons
-            Mod                 citadel
-            Write               citadel          
-            Game                citadel
-            Mod                 core
-            Write               core
-            Game                core        
-        }";
-
-	pub const VANILLA_SEARCH_PATHS: &str =
-		"SearchPaths
-        {  
-            Game_Language       citadel_*LANGUAGE*
-            Game                citadel
-            Write               citadel          
-            Game                citadel
-            Write               core
-            Game                core        
-        }";
+pub struct OptimizationsConfig;
+impl OptimizationsConfig {
+	pub const PROMPT_MESSAGE: &str = "Performance optimization preset";
+	pub const SELECT_MESSAGE: &str = "| Select performance optimization preset";
+	pub const SECTION_START: &str = "// Editor OptimizationsPreset - Start";
+	pub const SECTION_END: &str = "// Editor OptimizationsPreset - End";
+	pub const LIGHT_LINES: [(&str, &str); 21] = [
+		("r_decals", "1"),
+		("r_decals_default_fade_duration", "1"),
+		("sc_clutter_enable", "false"),
+		("violence_ablood", "0"),
+		("violence_agibs", "0"),
+		("violence_hblood", "0"),
+		("violence_hgibs", "0"),
+		("r_physics_particle_op_spawn_scale", "0"),
+		("cl_interp_parallel", "true"),
+		("r_citadel_depth_prepass_dynamic_objects", "false"),
+		("r_grass_end_fade", "0"),
+		("r_grass_quality", "0"),
+		("r_particle_model_per_thread_count", "64"),
+		("props_break_max_pieces_perframe", "0"),
+		("r_hair_ao", "0"),
+		("phys_threaded_cloth_bone_update", "1"),
+		("phys_threaded_kinematic_bone_update", "1"),
+		("animgraph_enable_parallel_op_evaluation", "1"),
+		("animgraph_enable_parallel_preupdate", "1"),
+		("ragdoll_parallel_pose_control", "1"),
+		("r_citadel_gpu_culling_shadows", "1"),
+	];
+	pub const MEDIUM_LINES: [(&str, &str); 131] = [
+		("citadel_portrait_world_renderer_off", "false"),
+		("citadel_trooper_glow_disabled", "1"),
+		("cl_phys_enabled", "true"),
+		("r_citadel_enable_pano_world_blur", "true"),
+		("r_particle_explicit_fetch", "false"),
+		("r_particle_max_size_cull", "900"),
+		("r_postprocess_enable", "true"),
+		("sc_screen_size_lod_scale_override", "0.55"),
+		("steam_inputhandler_enabled", "true"),
+		("lb_enable_dynamic_lights", "false"),
+		("lb_enable_baked_shadows", "false"),
+		("lb_enable_stationary_lights", "false"),
+		("r_size_cull_threshold", "0.9"),
+		("cam_idealdelta", "0"),
+		("cam_ideallag", "0"),
+		("citadel_camera_height", "0"),
+		("citadel_camera_height_ceiling_distance", "0"),
+		("citadel_camera_listening_offset", "-1"),
+		("citadel_camera_pitch_default", "0"),
+		("citadel_camera_see_distance_max", "7000"),
+		("citadel_shoot_forward_offset", "0"),
+		("citadel_stuck_camera_trace_extra_length", "0"),
+		("citadel_tightcamera_alternative", "1"),
+		("nav_edit_use_camera", "0"),
+		("rpg_camera_yaw", "0"),
+		("r_texture_budget_threshold", "0.7"),
+		("r_texture_budget_update_period", "0.5"),
+		("r_texture_stream_mip_bias", "3"),
+		("r_texturefilteringquality", "0"),
+		("r_farz", "-1"),
+		("r_mapextents", "16384"),
+		("r_nearz", "-1"),
+		("thread_pool_option", "2"),
+		("closecaption", "false"),
+		("panorama_allow_transitions", "false"),
+		("panorama_disable_blur", "true"),
+		("panorama_panel_occlusion", "true"),
+		("r_dashboard_render_quality", "1"),
+		("cl_globallight_shadow_mode", "2"),
+		("lb_barnlight_shadowmap_scale", "0"),
+		("lb_csm_cascade_size_override", "1"),
+		("lb_csm_draw_alpha_tested", "0"),
+		("lb_csm_draw_translucent", "0"),
+		("lb_csm_override_staticgeo_cascades", "true"),
+		("lb_csm_override_staticgeo_cascades_value", "true"),
+		("lb_dynamic_shadow_resolution_base", "16"),
+		("lb_enable_shadow_casting", "0"),
+		("lb_ssss_samples", "0"),
+		("lb_sun_csm_size_cull_threshold_texels", "60"),
+		("r_citadel_gpu_culling_shadows", "1"),
+		("r_citadel_shadow_caching", "true"),
+		("r_citadel_shadow_quality", "0"),
+		("r_shadows", "0"),
+		("r_size_cull_threshold_shadow", "2.4"),
+		("sc_disable_spotlight_shadows", "1"),
+		("sparseshadowtree_disable_for_viewmodel", "1"),
+		("sparseshadowtree_enable_rendering", "0"),
+		("cl_retire_low_priority_lights", "1"),
+		("mat_async_shader_load", "1"),
+		("mat_max_lighting_complexity", "0"),
+		("r_citadel_distancefield_farfield_enable", "0"),
+		("r_citadel_ssao_quality", "0"),
+		("r_citadel_ssao_thin_occluder_compensation", "0"),
+		("r_citadel_sun_shadow_slope_scale_depth_bias", "0"),
+		("r_directlighting", "false"),
+		("r_distancefield_enable", "1"),
+		("r_lightmap_bicubic_filtering", "1"),
+		("r_lightmap_size", "2048"),
+		("r_lightmap_size_directional_irradiance", "0"),
+		("r_multiscattering", "1"),
+		("r_rendersun", "0"),
+		("r_ssao", "0"),
+		("r_ssao_strength", "0"),
+		("cl_disable_ragdolls", "0"),
+		("cl_ragdoll_limit", "-1"),
+		("cl_fasttempentcollision", "1000"),
+		("cloth_sim_on_tick", "0"),
+		("enable_boneflex", "0"),
+		("ik_fabrik_align_chain", "1"),
+		("ik_final_fixup_enable", "0"),
+		("props_break_max_pieces_perframe", "1"),
+		("cl_show_splashes", "0"),
+		("mat_colorcorrection", "1"),
+		("r_character_decal_resolution", "4"),
+		("r_depth_of_field", "0"),
+		("r_effects_bloom", "0"),
+		("r_post_bloom", "0"),
+		("sc_clutter_enable", "false"),
+		("violence_ablood", "0"),
+		("violence_agibs", "0"),
+		("violence_hblood", "0"),
+		("violence_hgibs", "0"),
+		("volume_fog_intermediate_textures_hdr", "false"),
+		("cl_particle_sim_fallback_base_multiplier", "100"),
+		("cl_particle_sim_fallback_threshold_ms", "1"),
+		("cl_particle_fallback_multiplier", "10"),
+		("cl_particle_fallback_base", "5"),
+		("cl_aggregate_particles", "true"),
+		("cl_particle_batch_mode", "1"),
+		("r_RainParticleDensity", "0"),
+		("r_citadel_screenspace_particles_full_res", "true"),
+		("r_draw_particle_children_with_parents", "1"),
+		("r_limit_particle_job_duration", "true"),
+		("r_particle_allowprerender", "true"),
+		("r_particle_batch_collections", "true"),
+		("r_particle_fixedrandomseeds", "true"),
+		("r_particle_max_detail_level", "1"),
+		("r_particle_max_texture_layers", "4"),
+		("r_particle_min_timestep", "0.00241"),
+		("r_particle_model_per_thread_count", "64"),
+		("r_particle_skip_postsim", "true"),
+		("r_physics_particle_op_spawn_scale", "0"),
+		("r_update_particles_on_render_only_frames", "true"),
+		("r_world_wind_strength", "0"),
+		("phys_cull_internal_mesh_contacts", "true"),
+		("sc_aggregate_bvh_threshold", "256"),
+		("sc_allow_dithered_lod", "false"),
+		("sc_fade_distance_scale_override", "100"),
+		("sc_instanced_mesh_motion_vectors", "0"),
+		("sc_instanced_mesh_size_cull_bias_shadow", "10"),
+		("sc_layer_batch_threshold", "256"),
+		("sc_layer_batch_threshold_fullsort", "120"),
+		("citadel_video_preset", "9"),
+		("r_citadel_gpu_culling", "true"),
+		("r_vma_defrag_algorithm", "0"),
+		("rtx_dynamic_blas", "false"),
+		("rtx_dynamic_blas_caching", "true"),
+		("rtx_force_default_hitgroup", "true"),
+		("rtx_texture_resolution", "64"),
+		("sc_allow_dithered_lod", "false"),
+		("sc_instanced_mesh_opaque_fade", "false"),
+	];
+	pub const POTATO_LINES: [(&str, &str); 165] = [
+		("r_propsmaxdist", "600"),
+		("r_size_cull_threshold", "1.8"),
+		("r_size_cull_threshold_shadow", "1.0"),
+		("r_farz", "6000"),
+		("r_mapextents", "4500"),
+		("sc_screen_size_lod_scale_override", "0.000001"),
+		("citadel_portrait_world_renderer_off", "1"),
+		("r_drawdecals", "0"),
+		("r_character_decal_resolution", "128"),
+		("r_citadel_shadow_quality", "0"),
+		("r_shadows", "0"),
+		("r_citadel_shadow_caching", "0"),
+		("r_citadel_distancefield_shadows", "0"),
+		("sparseshadowtree_enable_rendering", "0"),
+		("sparseshadowtree_disable_add_layers", "1"),
+		("sparseshadowtree_disable_for_viewmodel", "1"),
+		("lb_precomputed_shadowmap_enable", "0"),
+		("r_citadel_gpu_preview_baked_shadows", "0"),
+		("r_citadel_gpu_preview_denoise", "0"),
+		("r_citadel_gpu_preview_denoise_shadow_passes", "0"),
+		("r_citadel_gpu_preview_denoise_passes", "0"),
+		("lb_csm_cascade_size_override", "1"),
+		("lb_csm_draw_alpha_tested", "0"),
+		("lb_csm_draw_translucent", "0"),
+		("lb_dynamic_shadow_resolution", "0"),
+		("lb_dynamic_shadow_resolution_base", "16"),
+		("lb_dynamic_shadow_penumbra", "0"),
+		("lb_sun_csm_size_cull_threshold_texels", "100"),
+		("lb_barnlight_shadowmap_scale", "0.5"),
+		("lb_enable_shadow_casting", "0"),
+		("lb_timesliced_shadows_dynamic_size", "0"),
+		("sc_disable_spotlight_shadows", "1"),
+		("r_citadel_gpu_culling_shadows", "1"),
+		("r_enable_volume_fog", "0"),
+		("r_enable_gradient_fog", "0"),
+		("r_enable_cubemap_fog", "0"),
+		("r_citadel_fog_quality", "0"),
+		("r_citadel_enable_pano_world_blur", "0"),
+		("fog_enable", "0"),
+		("fog_enableskybox", "0"),
+		("volume_fog_density_scale", "0"),
+		("volume_fog_enable_jitter", "0"),
+		("volume_fog_temporal_filter", "0"),
+		("volume_fog_intermediate_textures_hdr", "0"),
+		("r_citadel_distancefield_blur", "0"),
+		("r_directlighting", "0"),
+		("r_arealights", "0"),
+		("r_directional_lightmaps", "0"),
+		("r_lightmap_size", "1"),
+		("r_lightmap_size_directional_irradiance", "0"),
+		("r_light_flickering_enabled", "0"),
+		("r_rendersun", "0"),
+		("lb_ssss_samples", "1"),
+		("mat_max_lighting_complexity", "0"),
+		("r_dashboard_render_quality", "0"),
+		("mat_async_shader_load", "1"),
+		("r_environment_map_roughness_range", "0.01 0.01"),
+		("r_ssao", "0"),
+		("r_citadel_ssao_quality", "0"),
+		("r_ssao_blur", "0"),
+		("r_citadel_distancefield_ao_quality", "0"),
+		("r_citadel_ssao_thin_occluder_compensation", "0"),
+		("r_citadel_sun_shadow_slope_scale_depth_bias", "0"),
+		("r_effects_bloom", "0"),
+		("r_post_bloom", "0"),
+		("r_bloom_tent_filter_radius", "0"),
+		("r_depth_of_field", "0"),
+		("r_citadel_depthoffield_enable", "0"),
+		("r_citadel_cloak_blur_amount", "0"),
+		("r_distancefield_enable", "0"),
+		("r_citadel_distancefield_farfield_enable", "0"),
+		("r_citadel_distancefield_down_sample", "0"),
+		("r_particle_max_detail_level", "0"),
+		("r_particle_max_draw_distance", "300000"),
+		("r_particle_max_size_cull", "256"),
+		("r_particle_cables_render", "1"),
+		("r_particle_cables_cast_shadows", "0"),
+		("r_draw_particle_children_with_parents", "0"),
+		("r_particle_batch_collections", "1"),
+		("r_particle_min_timestep", "0.00241"),
+		("r_particle_skip_postsim", "1"),
+		("r_physics_particle_op_spawn_scale", "0"),
+		("r_particle_fixedrandomseeds", "1"),
+		("cl_particle_fallback_base", "1"),
+		("cl_particle_fallback_multiplier", "2"),
+		("cl_particle_sim_fallback_threshold_ms", "1"),
+		("cl_particle_sim_fallback_base_multiplier", "10"),
+		("cl_max_particle_pvs_aabb_edge_length", "60"),
+		("cl_particle_batch_mode", "1"),
+		("cl_impacteffects", "0"),
+		("cl_show_splashes", "0"),
+		("r_citadel_screenspace_particles_full_res", "0"),
+		("particle_cluster_nodraw", "1"),
+		("particle_cluster_use_collision_hulls", "false"),
+		("r_RainParticleDensity", "0"),
+		("fx_drawmetalspark", "0"),
+		("func_break_max_pieces", "0"),
+		("props_break_max_pieces_perframe", "1"),
+		("r_impacts_alt_orientation", "0"),
+		("violence_ablood", "0"),
+		("violence_agibs", "0"),
+		("violence_hblood", "0"),
+		("violence_hgibs", "0"),
+		("r_grass_quality", "0"),
+		("r_grass_allow_flattening", "0"),
+		("r_grass_vertex_lighting", "0"),
+		("r_grass_start_fade", "0"),
+		("r_grass_end_fade", "0"),
+		("sc_clutter_enable", "0"),
+		("r_world_wind_strength", "0"),
+		("r_world_wind_frequency_grass", "0"),
+		("r_world_wind_frequency_trees", "0"),
+		("r_render_hair", "0"),
+		("r_hair_ao", "0"),
+		("r_hair_indirect_transmittance", "0"),
+		("r_hair_shadowtile", "0"),
+		("r_hair_wind_motion_scale", "0"),
+		("r_hair_wind_noise", "0"),
+		("r_force_thick_hair", "0"),
+		("skeleton_instance_lod_optimization", "1"),
+		("r_morphing_enabled", "0"),
+		("r_smooth_morph_normals", "0"),
+		("scene_clientflex", "0"),
+		("cl_enable_eye_occlusion", "0"),
+		("enable_boneflex", "0"),
+		("cloth_sim_on_tick", "0"),
+		("cloth_update", "0"),
+		("r_strip_invisible_during_sceneobject_update", "1"),
+		("sc_instanced_mesh_lod_bias", "3"),
+		("sc_instanced_mesh_size_cull_bias", "3"),
+		("sc_instanced_mesh_size_cull_bias_shadow", "10"),
+		("sc_instanced_mesh_motion_vectors", "0"),
+		("sc_instanced_mesh_opaque_fade", "0"),
+		("sc_allow_dithered_lod", "0"),
+		("sc_fade_distance_scale_override", "100"),
+		("sc_force_materials_batchable", "1"),
+		("cl_disable_ragdolls", "1"),
+		("cl_ragdoll_default_scale", "0"),
+		("cl_ragdoll_limit", "0"),
+		("g_ragdoll_maxcount", "0"),
+		("g_ragdoll_important_maxcount", "0"),
+		("cl_retire_low_priority_lights", "1"),
+		("cl_batch_entity_list_ops_during_latch", "1"),
+		("rope_collide", "0"),
+		("phys_threaded_cloth_bone_update", "1"),
+		("phys_threaded_kinematic_bone_update", "1"),
+		("phys_threaded_transform_update", "1"),
+		("phys_cull_internal_mesh_contacts", "1"),
+		("cl_simulate_dormant_entities", "0"),
+		("cl_interp_parallel", "1"),
+		("r_texture_lod_scale", "2"),
+		("r_fallback_texture_lod_scale", "8"),
+		("r_texture_stream_mip_bias", "2"),
+		("r_texture_stream_max_resolution", "512"),
+		("r_texturefilteringquality", "0"),
+		("r_texture_pool_size", "800"),
+		("r_max_texture_pool_size", "800"),
+		("r_citadel_fsr_enable_mip_bias", "0"),
+		("v8_maximum_heap_size_mb", "128"),
+		("vulkan_batch_size", "1000"),
+		("r_drawropes", "0"),
+		("r_ropetranslucent", "0"),
+		("r_citadel_antialiasing", "0"),
+		("vis_sunlight_enable", "0"),
+		("r_citadel_clip_sphere_min_opacity", "0"),
+	];
 }

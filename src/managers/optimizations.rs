@@ -1,17 +1,17 @@
 use crate::core::cli::CommandLineInterface;
 use crate::core::file::GameInfoFile;
-use crate::shared::configs::FovConfig;
-use crate::shared::enums::Options;
+use crate::shared::configs::OptimizationsConfig;
+use crate::shared::enums::{ Options, PresetOptions };
 use crate::shared::traits::Manager;
 
 use anyhow::Result;
 use strum::IntoEnumIterator;
 
-pub struct FovManager;
+pub struct OptimizationsManager;
 
-impl Manager for FovManager {
+impl Manager for OptimizationsManager {
 	fn process(file: &mut GameInfoFile) -> Result<()> {
-		let message = FovConfig::PROMPT_MESSAGE;
+		let message = OptimizationsConfig::PROMPT_MESSAGE;
 		let options = Options::iter().collect();
 
 		let answer = CommandLineInterface::select_prompt(&message, options)?;
@@ -24,16 +24,19 @@ impl Manager for FovManager {
 	}
 
 	fn handle_enable(file: &mut GameInfoFile) -> Result<()> {
-		let section = (FovConfig::SECTION_START, FovConfig::SECTION_END);
-
-		let message = FovConfig::SELECT_MESSAGE;
-		let options = FovConfig::VALUE_OPTIONS.to_vec();
-
-		let key = FovConfig::KEY;
-		let value = CommandLineInterface::select_prompt(&message, options)?;
-		let lines = vec![(key, value)];
+		let section = (OptimizationsConfig::SECTION_START, OptimizationsConfig::SECTION_END);
 
 		let convars_pos = GameInfoFile::find_convars(file)?;
+
+		let options = PresetOptions::iter().collect();
+		let message = OptimizationsConfig::SELECT_MESSAGE;
+		let answer = CommandLineInterface::select_prompt(&message, options)?;
+
+		let lines = match answer {
+			PresetOptions::Light => OptimizationsConfig::LIGHT_LINES.to_vec(),
+			PresetOptions::Medium => OptimizationsConfig::MEDIUM_LINES.to_vec(),
+			PresetOptions::Potato => OptimizationsConfig::POTATO_LINES.to_vec(),
+		};
 
 		match GameInfoFile::find_section(file, &section) {
 			Ok(section_pos) => GameInfoFile::replace_section(file, &lines, &section, &section_pos),
@@ -42,7 +45,7 @@ impl Manager for FovManager {
 	}
 
 	fn handle_disable(file: &mut GameInfoFile) -> Result<()> {
-		let section = (FovConfig::SECTION_START, FovConfig::SECTION_END);
+		let section = (OptimizationsConfig::SECTION_START, OptimizationsConfig::SECTION_END);
 
 		match GameInfoFile::find_section(file, &section) {
 			Ok(section_pos) => GameInfoFile::remove_section(file, &section_pos),
