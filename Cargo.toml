@@ -9,6 +9,8 @@ steamlocate = "2.1.0"
 anyhow = "1.0.104"
 crossterm = "0.29.0"
 inquire = "0.9.4"
+strum = "0.28.0"
+strum_macros = "0.28.0"
 
 [build-dependencies]
 winresource = "0.1.31"

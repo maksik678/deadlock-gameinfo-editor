@@ -1,10 +1,8 @@
+use crate::shared::configs::GameInfoFileConfig;
+
+use std::fs;
+
 use anyhow::{ anyhow, Result };
-
-const DEADLOCK_APP_ID: u32 = 1422450;
-
-const NEW_LINE: &str = "\n";
-const INDENT: &str = "\t\t";
-const SEPARATOR: &str = "\t";
 
 pub struct GameInfoFile {
 	content: String,
@@ -21,7 +19,7 @@ impl GameInfoFile {
 
 	fn find() -> Result<String> {
 		let steam_dir = steamlocate::locate()?;
-		let steam_app = steam_dir.find_app(DEADLOCK_APP_ID)?;
+		let steam_app = steam_dir.find_app(GameInfoFileConfig::DEADLOCK_APP_ID)?;
 
 		let (deadlock, library) = &steam_app.ok_or_else(|| anyhow!("Deadlock not found"))?;
 
@@ -33,19 +31,23 @@ impl GameInfoFile {
 	}
 
 	fn read(path: &String) -> Result<String> {
-		let file = std::fs::read_to_string(path)?;
+		let file = fs::read_to_string(path)?;
 
 		Ok(file)
 	}
 
 	pub fn save(&self) -> Result<()> {
-		let result = std::fs::write(&self.path, &self.content)?;
+		let result = fs::write(&self.path, &self.content)?;
 
 		Ok(result)
 	}
 
-	pub fn new_line(key: &str, value: &str) -> String {
-		let line = format!("{NEW_LINE}{INDENT}\"{key}\"{SEPARATOR}\"{value}\"");
+	pub fn create_line(key: &str, value: &str) -> String {
+		let new_line = "\n";
+		let indent = "\t\t";
+		let separator = "\t";
+
+		let line = format!("{new_line}{indent}\"{key}\"{separator}\"{value}\"");
 
 		line
 	}

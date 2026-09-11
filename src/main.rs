@@ -1,16 +1,25 @@
-mod cli;
-mod file;
-mod fov;
-mod health_minion;
-mod health_player;
-mod mods;
+mod core {
+	pub mod cli;
+	pub mod file;
+}
+mod managers {
+	pub mod fov;
+	pub mod health_minion;
+	pub mod health_player;
+	pub mod mods;
+}
 
-use cli::CommandLineInterface;
-use file::GameInfoFile;
-use fov::FovManager;
-use health_minion::MinionHealthManager;
-use health_player::PlayerHealthManager;
-use mods::ModsManager;
+mod shared {
+	pub mod configs;
+	pub mod enums;
+}
+
+use crate::core::cli::CommandLineInterface;
+use crate::core::file::GameInfoFile;
+use crate::managers::fov::FovManager;
+use crate::managers::health_minion::MinionHealthManager;
+use crate::managers::health_player::PlayerHealthManager;
+use crate::managers::mods::ModsManager;
 
 use anyhow::Result;
 
