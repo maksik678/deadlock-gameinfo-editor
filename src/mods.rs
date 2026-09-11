@@ -37,20 +37,24 @@ impl ModsManager {
 		let answer = CommandLineInterface::select_prompt(&QUESTION, options)?;
 
 		match answer {
-			"Enable" => Self::handle_enable(file),
-			"Disable" => Self::handle_disable(file),
-			_ => Self::handle_skip(file),
+			"Enable" => Self::handle_enable(&file),
+			"Disable" => Self::handle_disable(&file),
+			_ => Self::handle_skip(&file),
 		}
 	}
 
 	fn handle_enable(file: &String) -> Result<String> {
-		let (start, end) = GameInfoFile::find_search_paths(file)?;
-		GameInfoFile::replace_search_paths(file, &MODDED_SEARCH_PATHS, &start, &end)
+		let (start, end) = GameInfoFile::find_search_paths(&file)?;
+		let file = GameInfoFile::replace_search_paths(&file, &MODDED_SEARCH_PATHS, &start, &end)?;
+
+		Ok(file.clone())
 	}
 
 	fn handle_disable(file: &String) -> Result<String> {
-		let (start, end) = GameInfoFile::find_search_paths(file)?;
-		GameInfoFile::replace_search_paths(file, &VANILLA_SEARCH_PATHS, &start, &end)
+		let (start, end) = GameInfoFile::find_search_paths(&file)?;
+		let file = GameInfoFile::replace_search_paths(&file, &VANILLA_SEARCH_PATHS, &start, &end)?;
+
+		Ok(file.clone())
 	}
 
 	fn handle_skip(file: &String) -> Result<String> {

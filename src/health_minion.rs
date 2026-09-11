@@ -3,14 +3,14 @@ use anyhow::{ Result };
 use crate::cli::CommandLineInterface;
 use crate::file::GameInfoFile;
 
-const QUESTION: &str = "Additional FOV";
-const CHOOSE: &str = "Select additional FOV";
+const QUESTION: &str = "Show minion health through walls & objects";
 const TARGET: &str = "ConVars";
-const KEY: &str = "r_aspectratio";
+const KEY: &str = "citadel_damage_offscreen_indicator_disabled";
+const VALUE: &str = "0";
 
-pub struct FovManager;
+pub struct MinionHealthManager;
 
-impl FovManager {
+impl MinionHealthManager {
 	pub fn process(file: &String) -> Result<String> {
 		let options = vec!["Enable", "Disable", "Skip"];
 
@@ -24,15 +24,12 @@ impl FovManager {
 	}
 
 	fn handle_enable(file: &String) -> Result<String> {
-		let options = vec!["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "3.0"];
+		let new_line = GameInfoFile::new_line(&KEY, &VALUE);
 
-		let value = CommandLineInterface::select_prompt(&CHOOSE, options)?;
-		let new_line = GameInfoFile::new_line(&KEY, &value);
-
-		let file = match GameInfoFile::find_line(&file, &KEY) {
+		let file = (match GameInfoFile::find_line(&file, &KEY) {
 			Ok(existing) => GameInfoFile::replace_line(&file, &existing, &new_line),
 			Err(_) => GameInfoFile::add_line(&file, &TARGET, &new_line),
-		}?;
+		})?;
 
 		Ok(file.clone())
 	}
