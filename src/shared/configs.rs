@@ -11,8 +11,8 @@ impl GameInfoFileConfig {
 
 pub struct FovConfig;
 impl FovConfig {
-	pub const PROMPT_MESSAGE: &str = "Additional FOV";
-	pub const SELECT_MESSAGE: &str = "| Select additional FOV";
+	pub const PROMPT_MESSAGE: &str = "Extra camera FOV:";
+	pub const SELECT_MESSAGE: &str = "| Select extra camera FOV:";
 	pub const SECTION_START: &str = "// Editor FOV - Start";
 	pub const SECTION_END: &str = "// Editor FOV - End";
 	pub const KEY: &str = "r_aspectratio";
@@ -21,7 +21,7 @@ impl FovConfig {
 
 pub struct MinionHealthConfig;
 impl MinionHealthConfig {
-	pub const PROMPT_MESSAGE: &str = "Show minion health through walls & objects";
+	pub const PROMPT_MESSAGE: &str = "Show minion health through walls & objects:";
 	pub const SECTION_START: &str = "// Editor MinionHealth - Start";
 	pub const SECTION_END: &str = "// Editor MinionHealth - End";
 	pub const LINES: [(&str, &str); 1] = [("citadel_damage_offscreen_indicator_disabled", "0")];
@@ -29,7 +29,7 @@ impl MinionHealthConfig {
 
 pub struct PlayerHealthConfig;
 impl PlayerHealthConfig {
-	pub const PROMPT_MESSAGE: &str = "New player health bar style";
+	pub const PROMPT_MESSAGE: &str = "New player health bar style:";
 	pub const SECTION_START: &str = "// Editor PlayerHealth - Start";
 	pub const SECTION_END: &str = "// Editor PlayerHealth - End";
 	pub const LINES: [(&str, &str); 2] = [
@@ -40,8 +40,8 @@ impl PlayerHealthConfig {
 
 pub struct OptimizationsConfig;
 impl OptimizationsConfig {
-	pub const PROMPT_MESSAGE: &str = "Performance optimization preset";
-	pub const SELECT_MESSAGE: &str = "| Select performance optimization preset";
+	pub const PROMPT_MESSAGE: &str = "Performance optimization preset:";
+	pub const SELECT_MESSAGE: &str = "| Select performance optimization preset:";
 	pub const SECTION_START: &str = "// Editor OptimizationsPreset - Start";
 	pub const SECTION_END: &str = "// Editor OptimizationsPreset - End";
 	pub const LIGHT_LINES: [(&str, &str); 21] = [
