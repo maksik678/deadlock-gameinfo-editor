@@ -2,7 +2,7 @@ use crate::shared::configs::GameInfoFileConfig;
 
 use std::fs;
 
-use anyhow::{ anyhow, Result };
+use anyhow::{ Context, Result };
 
 pub struct GameInfoFile {
 	path: String,
@@ -27,7 +27,7 @@ impl GameInfoFile {
 		let steam_dir = steamlocate::locate()?;
 		let steam_app = steam_dir.find_app(GameInfoFileConfig::DEADLOCK_APP_ID)?;
 
-		let (deadlock, library) = &steam_app.ok_or_else(|| anyhow!("[Deadlock App] was not found"))?;
+		let (deadlock, library) = &steam_app.context("[Deadlock App] was not found")?;
 
 		let deadlock_path = &library.resolve_app_dir(&deadlock);
 		let gameinfo_path = &deadlock_path.join("game").join("citadel").join("gameinfo.gi");
@@ -43,8 +43,8 @@ impl GameInfoFile {
 	}
 
 	pub fn find_convars(&self) -> Result<usize> {
-		let target_pos = self.content.find("ConVars").ok_or_else(|| anyhow!("[ConVars] was not found"))?;
-		let open_brace_pos = self.content[target_pos..].find('{').ok_or_else(|| anyhow!("[Open Brace] was not found"))?;
+		let target_pos = self.content.find("ConVars").context("[ConVars] was not found")?;
+		let open_brace_pos = self.content[target_pos..].find('{').context("[Open Brace] was not found")?;
 		let convars_pos = target_pos + open_brace_pos + 1;
 
 		Ok(convars_pos)
@@ -53,8 +53,8 @@ impl GameInfoFile {
 	pub fn find_section(&self, section: &(&str, &str)) -> Result<(usize, usize)> {
 		let (section_start, section_end) = section;
 
-		let section_start_pos = self.content.find(section_start).ok_or_else(|| anyhow!("[{section_start}] was not found"))? - 3;
-		let section_end_pos = self.content.find(section_end).ok_or_else(|| anyhow!("[{section_end}] was not found"))? + section_end.len() + 1;
+		let section_start_pos = self.content.find(section_start).context("[{section_start}] was not found")? - 3;
+		let section_end_pos = self.content.find(section_end).context("[{section_end}] was not found")? + section_end.len() + 1;
 
 		Ok((section_start_pos, section_end_pos))
 	}
