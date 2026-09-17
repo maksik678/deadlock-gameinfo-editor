@@ -14,7 +14,7 @@ impl Manager for OptimizationsManager {
 		let message = OptimizationsConfig::PROMPT_MESSAGE;
 		let options = Options::iter().collect();
 
-		let answer = CommandLineInterface::select_prompt(&message, options)?;
+		let answer = CommandLineInterface::select_prompt(message, options)?;
 
 		match answer {
 			Options::Enable => Self::handle_enable(file),
@@ -30,7 +30,7 @@ impl Manager for OptimizationsManager {
 
 		let options = PresetOptions::iter().collect();
 		let message = OptimizationsConfig::SELECT_MESSAGE;
-		let answer = CommandLineInterface::select_prompt(&message, options)?;
+		let answer = CommandLineInterface::select_prompt(message, options)?;
 
 		let lines = match answer {
 			PresetOptions::Light => OptimizationsConfig::LIGHT_LINES.to_vec(),
@@ -38,17 +38,17 @@ impl Manager for OptimizationsManager {
 			PresetOptions::Potato => OptimizationsConfig::POTATO_LINES.to_vec(),
 		};
 
-		match GameInfoFile::find_section(file, &section) {
-			Ok(section_pos) => GameInfoFile::replace_section(file, &lines, &section, &section_pos),
-			Err(..) => GameInfoFile::add_section(file, &lines, &section, &convars_pos),
+		match GameInfoFile::find_section(file, section) {
+			Ok(section_pos) => GameInfoFile::replace_section(file, lines, section, section_pos),
+			Err(..) => GameInfoFile::add_section(file, lines, section, convars_pos),
 		}
 	}
 
 	fn handle_disable(file: &mut GameInfoFile) -> Result<()> {
 		let section = (OptimizationsConfig::SECTION_START, OptimizationsConfig::SECTION_END);
 
-		match GameInfoFile::find_section(file, &section) {
-			Ok(section_pos) => GameInfoFile::remove_section(file, &section_pos),
+		match GameInfoFile::find_section(file, section) {
+			Ok(section_pos) => GameInfoFile::remove_section(file, section_pos),
 			Err(..) => Ok(()),
 		}
 	}
