@@ -2,6 +2,7 @@ pub struct CommandLineInterfaceConfig;
 impl CommandLineInterfaceConfig {
 	pub const TITLE: &str = "Deadlock gameinfo.gi editor";
 	pub const EXIT_MESSAGE: &str = "Press Enter to exit...";
+	pub const ERROR_PREFIX: &str = "Error:";
 }
 
 pub struct GameInfoFileConfig;

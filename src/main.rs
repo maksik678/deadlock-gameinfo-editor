@@ -20,14 +20,10 @@ use crate::core::cli::CommandLineInterface;
 use anyhow::Result;
 
 fn main() -> Result<()> {
-	CommandLineInterface::init()?;
-
 	if let Err(e) = CommandLineInterface::run() {
-		CommandLineInterface::error(e)?;
-		CommandLineInterface::exit()?;
+		CommandLineInterface::error(e);
+		CommandLineInterface::exit()
+	} else {
+		CommandLineInterface::exit()
 	}
-
-	CommandLineInterface::exit()?;
-
-	Ok(())
 }

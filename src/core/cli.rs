@@ -3,8 +3,8 @@ use crate::managers::fov::FovManager;
 use crate::managers::health_minion::MinionHealthManager;
 use crate::managers::health_player::PlayerHealthManager;
 use crate::managers::optimizations::OptimizationsManager;
-use crate::shared::traits::Manager;
 use crate::shared::configs::CommandLineInterfaceConfig;
+use crate::shared::traits::Manager;
 
 use std::{ fmt::Display, io };
 
@@ -15,29 +15,24 @@ use inquire::{ Select, Text };
 pub struct CommandLineInterface {}
 
 impl CommandLineInterface {
-	pub fn init() -> Result<()> {
-		let title = CommandLineInterfaceConfig::TITLE;
-		execute!(io::stdout(), SetTitle(&title), DisableBlinking)?;
-
-		Ok(())
-	}
-
 	pub fn run() -> Result<()> {
-		let mut file = GameInfoFile::init()?;
+		Self::init()?;
+
+		let mut file = GameInfoFile::load()?;
 
 		FovManager::process(&mut file)?;
 		MinionHealthManager::process(&mut file)?;
 		PlayerHealthManager::process(&mut file)?;
 		OptimizationsManager::process(&mut file)?;
 
-		GameInfoFile::save(&mut file)?;
+		GameInfoFile::save(&file)?;
 
 		Ok(())
 	}
 
-	pub fn error(e: Error) -> Result<()> {
-		let prefix = format!("Error:").red();
-		println!("{prefix} {e:#}");
+	fn init() -> Result<()> {
+		let title = CommandLineInterfaceConfig::TITLE;
+		execute!(io::stdout(), SetTitle(title), DisableBlinking)?;
 
 		Ok(())
 	}
@@ -46,6 +41,11 @@ impl CommandLineInterface {
 		let message = CommandLineInterfaceConfig::EXIT_MESSAGE;
 		Text::new(message).prompt()?;
 		std::process::exit(1)
+	}
+
+	pub fn error(e: Error) {
+		let prefix = CommandLineInterfaceConfig::ERROR_PREFIX.red();
+		println!("{prefix} {e:#}")
 	}
 
 	pub fn select_prompt<T: Display>(message: &str, options: Vec<T>) -> Result<T> {
