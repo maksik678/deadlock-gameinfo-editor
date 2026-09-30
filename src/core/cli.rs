@@ -40,11 +40,13 @@ impl CommandLineInterface {
 	pub fn exit() -> Result<()> {
 		let message = CommandLineInterfaceConfig::EXIT_MESSAGE;
 		Text::new(message).prompt()?;
+
 		std::process::exit(1)
 	}
 
 	pub fn error(e: Error) {
 		let prefix = CommandLineInterfaceConfig::ERROR_PREFIX.red();
+
 		println!("{prefix} {e:#}")
 	}
 
