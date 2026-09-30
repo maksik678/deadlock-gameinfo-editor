@@ -12,4 +12,6 @@
 
   * **Medium** — Based on [Sqooky's config](https://github.com/Sqooky/OptimizationLock/tree/main/Sqooky's%20.gi)
 
-  * **Potato** — Based on [Kaizuchanru's config](https://github.com/Sqooky/OptimizationLock/tree/main/kaizuchanerus%20minimum%20spec)
+  * **Competitive** — Based on [OptiLock FPS Config (Recommended)](https://github.com/dacooderr/OptiLock/tree/main/OptiLock%20FPS%20Config%20(Recommended))
+
+  * **Potato** — Based on [OptiLock Potato Config](https://github.com/dacooderr/OptiLock/tree/main/OptiLock%20Potato%20Config)

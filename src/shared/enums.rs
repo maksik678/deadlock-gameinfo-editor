@@ -11,5 +11,6 @@ pub enum Options {
 pub enum PresetOptions {
 	Light,
 	Medium,
+	Competitive,
 	Potato,
 }

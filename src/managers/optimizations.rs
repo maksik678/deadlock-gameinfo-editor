@@ -35,6 +35,7 @@ impl Manager for OptimizationsManager {
 		let lines = match answer {
 			PresetOptions::Light => OptimizationsConfig::LIGHT_LINES.to_vec(),
 			PresetOptions::Medium => OptimizationsConfig::MEDIUM_LINES.to_vec(),
+			PresetOptions::Competitive => OptimizationsConfig::COMPETITIVE_LINES.to_vec(),
 			PresetOptions::Potato => OptimizationsConfig::POTATO_LINES.to_vec(),
 		};
 
