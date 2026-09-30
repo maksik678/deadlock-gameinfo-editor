@@ -1,7 +1,5 @@
 use crate::core::file::GameInfoFile;
 use crate::managers::fov::FovManager;
-use crate::managers::health_minion::MinionHealthManager;
-use crate::managers::health_player::PlayerHealthManager;
 use crate::managers::optimizations::OptimizationsManager;
 use crate::shared::configs::CommandLineInterfaceConfig;
 use crate::shared::traits::Manager;
@@ -21,8 +19,6 @@ impl CommandLineInterface {
 		let mut file = GameInfoFile::load()?;
 
 		FovManager::process(&mut file)?;
-		MinionHealthManager::process(&mut file)?;
-		PlayerHealthManager::process(&mut file)?;
 		OptimizationsManager::process(&mut file)?;
 
 		GameInfoFile::save(&file)?;

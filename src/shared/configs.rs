@@ -20,25 +20,6 @@ impl FovConfig {
 	pub const VALUE_OPTIONS: [&str; 10] = ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "3.0"];
 }
 
-pub struct MinionHealthConfig;
-impl MinionHealthConfig {
-	pub const PROMPT_MESSAGE: &str = "Show minion health through walls & objects:";
-	pub const SECTION_START: &str = "// Editor MinionHealth - Start";
-	pub const SECTION_END: &str = "// Editor MinionHealth - End";
-	pub const LINES: [(&str, &str); 1] = [("citadel_damage_offscreen_indicator_disabled", "0")];
-}
-
-pub struct PlayerHealthConfig;
-impl PlayerHealthConfig {
-	pub const PROMPT_MESSAGE: &str = "New player health bar style:";
-	pub const SECTION_START: &str = "// Editor PlayerHealth - Start";
-	pub const SECTION_END: &str = "// Editor PlayerHealth - End";
-	pub const LINES: [(&str, &str); 2] = [
-		("citadel_unit_status_use_new", "true"),
-		("citadel_healthbars_enabled", "false"),
-	];
-}
-
 pub struct OptimizationsConfig;
 impl OptimizationsConfig {
 	pub const PROMPT_MESSAGE: &str = "Performance optimization preset:";

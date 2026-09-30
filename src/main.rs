@@ -4,8 +4,6 @@ mod core {
 }
 mod managers {
 	pub mod fov;
-	pub mod health_minion;
-	pub mod health_player;
 	pub mod optimizations;
 }
 
