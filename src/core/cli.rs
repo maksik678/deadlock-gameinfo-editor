@@ -1,4 +1,5 @@
 use crate::core::file::GameInfoFile;
+use crate::managers::color_correction::ColorCorrectionManager;
 use crate::managers::fov::FovManager;
 use crate::managers::optimizations::OptimizationsManager;
 use crate::shared::configs::CommandLineInterfaceConfig;
@@ -19,6 +20,7 @@ impl CommandLineInterface {
 		let mut file = GameInfoFile::load()?;
 
 		FovManager::process(&mut file)?;
+		ColorCorrectionManager::process(&mut file)?;
 		OptimizationsManager::process(&mut file)?;
 
 		GameInfoFile::save(&file)?;

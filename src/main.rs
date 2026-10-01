@@ -3,6 +3,7 @@ mod core {
 	pub mod file;
 }
 mod managers {
+	pub mod color_correction;
 	pub mod fov;
 	pub mod optimizations;
 }

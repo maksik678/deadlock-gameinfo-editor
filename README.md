@@ -2,6 +2,8 @@
 
 * **Extra camera FOV** — Increases player's field of view. The recommended starting point is `"2.5"`
 
+* **Color correction removal** — Completely removes default color correction from the game. [Example](https://imgur.com/a/color-correction-removal-4nM2lB3)
+
 * **Performance optimization preset** — A set of various graphical config settings presets to improve performance/visual clarity of the game
 
   * **Light** — Barely does anything to visuals and performance, removes some visual clutter
