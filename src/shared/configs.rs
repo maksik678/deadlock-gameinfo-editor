@@ -98,7 +98,7 @@ impl OptimizationsConfig {
 		("rtx_texture_resolution", "64"),
 		("sc_instanced_mesh_opaque_fade", "false"),
 	];
-	pub const MEDIUM_LINES: [(&str, &str); 238] = [
+	pub const MEDIUM_LINES: [(&str, &str); 237] = [
 		("citadel_camera_use_vmdl_flatten_vertical", "false"),
 		("citadel_portrait_world_renderer_off", "false"),
 		("citadel_trooper_glow_disabled", "1"),
@@ -117,7 +117,6 @@ impl OptimizationsConfig {
 		("citadel_unit_status_allies_see_thru_walls", "true"),
 		("citadel_unit_status_allies_see_thru_walls_max_distance", "40"),
 		("citadel_unit_status_dpi", "10"),
-		("r_aspectratio", "2.9"),
 		("citadel_damage_report_enable", "1"),
 		("citadel_damage_text_batching_window_ability", "1000"),
 		("citadel_distance_mouse_move_for_minimap_drawing", "1"),
@@ -338,7 +337,7 @@ impl OptimizationsConfig {
 		("fog_enableskybox", "false"),
 		("volume_fog_enable_jitter", "false"),
 	];
-	pub const COMPETITIVE_LINES: [(&str, &str); 586] = [
+	pub const COMPETITIVE_LINES: [(&str, &str); 585] = [
 		("citadel_trooper_glow_disabled", "1"),
 		("citadel_boss_glow_disabled", "1"),
 		("r_citadel_npr_outlines_max_dist", "600"),
@@ -348,7 +347,6 @@ impl OptimizationsConfig {
 		("citadel_player_glow_disabled", "0"),
 		("citadel_trooper_friendly_glow_disabled", "1"),
 		("cl_glow_brightness", "0"),
-		("r_aspectratio", "2.15"),
 		("citadel_camera_hero_fov", "100"),
 		("citadel_unit_status_use_new", "1"),
 		("citadel_hideout_ball_show_juggle_count", "1"),
@@ -926,7 +924,7 @@ impl OptimizationsConfig {
 		("csm_viewmodel_max_visible_dist", "100"),
 		("csm_viewmodel_nearz", "0.1"),
 	];
-	pub const POTATO_LINES: [(&str, &str); 587] = [
+	pub const POTATO_LINES: [(&str, &str); 586] = [
 		("citadel_trooper_glow_disabled", "1"),
 		("citadel_boss_glow_disabled", "1"),
 		("r_citadel_npr_outlines_max_dist", "600"),
@@ -936,7 +934,6 @@ impl OptimizationsConfig {
 		("citadel_player_glow_disabled", "0"),
 		("citadel_trooper_friendly_glow_disabled", "1"),
 		("cl_glow_brightness", "0"),
-		("r_aspectratio", "2.15"),
 		("citadel_camera_hero_fov", "100"),
 		("citadel_unit_status_use_new", "1"),
 		("citadel_hideout_ball_show_juggle_count", "1"),
