@@ -98,7 +98,7 @@ impl OptimizationsConfig {
 		("rtx_texture_resolution", "64"),
 		("sc_instanced_mesh_opaque_fade", "false"),
 	];
-	pub const MEDIUM_LINES: [(&str, &str); 355] = [
+	pub const MEDIUM_LINES: [(&str, &str); 354] = [
 		("citadel_camera_use_vmdl_flatten_vertical", "true"),
 		("citadel_portrait_world_renderer_off", "false"),
 		("citadel_trooper_glow_disabled", "1"),
@@ -353,7 +353,6 @@ impl OptimizationsConfig {
 		("citadel_hud_objective_health_idle_timeout", "0"),
 		("citadel_minimap_overlap_scan_distance", "0"),
 		("citadel_orb_debug_draw_state", "1"),
-		("citadel_per_weapon_per_surface_impact_effects", "false"),
 		("citadel_player_outline_enemies", "false"),
 		("citadel_portrait_unit_ag2_enable", "false"),
 		("citadel_use_pvs_for_players", "true"),
@@ -455,7 +454,7 @@ impl OptimizationsConfig {
 		("wind_system_default_resolution_xy", "0"),
 		("wind_system_temporal_smoothing", "false"),
 	];
-	pub const COMPETITIVE_LINES: [(&str, &str); 581] = [
+	pub const COMPETITIVE_LINES: [(&str, &str); 580] = [
 		("citadel_trooper_glow_disabled", "1"),
 		("citadel_boss_glow_disabled", "1"),
 		("r_citadel_npr_outlines_max_dist", "600"),
@@ -640,7 +639,7 @@ impl OptimizationsConfig {
 		("cl_entityiter_allow_world_occlusion", "0"),
 		("sv_force_transmit_players", "1"),
 		("r_lod", "-5"),
-		("r_texture_pool_size", "256"),
+		("r_texture_pool_size", "512"),
 		("r_max_portal_render_targets", "2"),
 		("citadel_damage_text_lifetime", "0.5"),
 		("snd_steamaudio_enable_reverb", "0"),
@@ -869,7 +868,6 @@ impl OptimizationsConfig {
 		("r_morphing_enabled", "false"),
 		("r_render_hair", "0"),
 		("r_smooth_morph_normals", "0"),
-		("citadel_per_weapon_per_surface_impact_effects", "false"),
 		("cl_impacteffects", "0"),
 		("cl_show_splashes", "0"),
 		("fog_enable", "0"),
