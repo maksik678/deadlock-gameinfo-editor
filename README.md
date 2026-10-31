@@ -6,10 +6,8 @@
 
 * **Performance optimization preset** — A set of various graphical config settings presets to improve performance/visual clarity of the game
 
-  * **Light** — Barely does anything to visuals and performance, removes some visual clutter
+  * **Light** — Based on [Sqooky's config](https://github.com/Sqooky/OptimizationLock/tree/main/Sqooky's%20.gi)
 
-  * **Medium** — Based on [Sqooky's config](https://github.com/Sqooky/OptimizationLock/tree/main/Sqooky's%20.gi)
-
-  * **Competitive** — Based on [OptiLock FPS Config (Recommended)](https://github.com/dacooderr/OptiLock/tree/main/OptiLock%20FPS%20Config%20(Recommended))
+  * **Recommended** — Based on [OptiLock FPS Config (Recommended)](https://github.com/dacooderr/OptiLock/tree/main/OptiLock%20FPS%20Config%20(Recommended))
 
   * **Potato** — Based on [OptiLock Potato Config](https://github.com/dacooderr/OptiLock/tree/main/OptiLock%20Potato%20Config)

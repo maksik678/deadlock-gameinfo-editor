@@ -10,7 +10,6 @@ pub enum Options {
 #[derive(Display, EnumIter)]
 pub enum PresetOptions {
 	Light,
-	Medium,
-	Competitive,
+	Recommended,
 	Potato,
 }
