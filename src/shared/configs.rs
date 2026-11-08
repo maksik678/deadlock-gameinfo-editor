@@ -38,6 +38,7 @@ impl OptimizationsConfig {
 	pub const SECTION_START: &str = "// Editor OptimizationsPreset - Start";
 	pub const SECTION_END: &str = "// Editor OptimizationsPreset - End";
 	pub const LIGHT_LINES: [(&str, &str); 233] = [
+		("citadel_damage_offscreen_indicator_disabled", "0"),
 		("citadel_camera_use_vmdl_flatten_vertical", "true"),
 		("citadel_portrait_world_renderer_off", "false"),
 		("citadel_trooper_glow_disabled", "1"),
@@ -50,7 +51,6 @@ impl OptimizationsConfig {
 		("sc_screen_size_lod_scale_override", "0.55"),
 		("steam_inputhandler_enabled", "true"),
 		("citadel_boss_glow_disabled", "1"),
-		("citadel_damage_offscreen_indicator_disabled", "true"),
 		("citadel_unit_status_allies_see_thru_walls", "true"),
 		("citadel_damage_report_enable", "1"),
 		("citadel_damage_text_batching_window_ability", "1000"),
@@ -273,6 +273,7 @@ impl OptimizationsConfig {
 		("volume_fog_enable_jitter", "false"),
 	];
 	pub const RECOMMENDED_LINES: [(&str, &str); 414] = [
+		("citadel_damage_offscreen_indicator_disabled", "0"),
 		("citadel_trooper_glow_disabled", "true"),
 		("citadel_boss_glow_disabled", "true"),
 		("citadel_trooper_friendly_glow_disabled", "true"),
@@ -499,7 +500,6 @@ impl OptimizationsConfig {
 		("g_ragdoll_important_maxcount", "1"),
 		("citadel_camera_soft_collision", "0"),
 		("citadel_camera_wobble_disable", "1"),
-		("citadel_damage_offscreen_indicator_disabled", "1"),
 		("shake_show", "false"),
 		("citadel_melee_shake_amplitude", "0"),
 		("citadel_melee_shake_duration", "0"),
@@ -689,6 +689,7 @@ impl OptimizationsConfig {
 		("ik_debug_fabrik_forwards_enabled", "false"),
 	];
 	pub const POTATO_LINES: [(&str, &str); 417] = [
+		("citadel_damage_offscreen_indicator_disabled", "0"),
 		("citadel_trooper_glow_disabled", "true"),
 		("citadel_boss_glow_disabled", "true"),
 		("citadel_trooper_friendly_glow_disabled", "true"),
@@ -917,7 +918,6 @@ impl OptimizationsConfig {
 		("g_ragdoll_important_maxcount", "1"),
 		("citadel_camera_soft_collision", "0"),
 		("citadel_camera_wobble_disable", "1"),
-		("citadel_damage_offscreen_indicator_disabled", "1"),
 		("shake_show", "false"),
 		("citadel_melee_shake_amplitude", "0"),
 		("citadel_melee_shake_duration", "0"),
